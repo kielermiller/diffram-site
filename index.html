@@ -201,11 +201,11 @@
   .about-visual{position:relative;display:flex;align-items:center;justify-content:center}
   .about-avatar{
     width:260px;height:260px;border-radius:24px;
-    background:linear-gradient(135deg,var(--accent),var(--accent-light));
-    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
     transform:rotate(-3deg);transition:transform .5s var(--transition);
     box-shadow:var(--shadow-lg);
   }
+  .about-avatar img{width:100%;height:100%;object-fit:cover;display:block}
   .about-avatar:hover{transform:rotate(0deg) scale(1.03)}
   .about-text p{color:var(--text-muted);font-size:1rem;margin-bottom:1.1rem;line-height:1.65}
 
@@ -475,25 +475,7 @@
     <div class="about-grid">
       <div class="about-visual reveal">
         <div class="about-avatar">
-          <!-- Node network logo mark -->
-          <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Connection lines -->
-            <line x1="60" y1="24" x2="26" y2="80" stroke="rgba(255,255,255,0.35)" stroke-width="2" stroke-linecap="round"/>
-            <line x1="60" y1="24" x2="94" y2="80" stroke="rgba(255,255,255,0.35)" stroke-width="2" stroke-linecap="round"/>
-            <line x1="26" y1="80" x2="94" y2="80" stroke="rgba(255,255,255,0.35)" stroke-width="2" stroke-linecap="round"/>
-            <line x1="60" y1="24" x2="60" y2="80" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="4 4"/>
-            <!-- Outer nodes -->
-            <circle cx="60" cy="24" r="13" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
-            <circle cx="26" cy="80" r="13" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
-            <circle cx="94" cy="80" r="13" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
-            <!-- Inner dots -->
-            <circle cx="60" cy="24" r="5" fill="white"/>
-            <circle cx="26" cy="80" r="5" fill="white"/>
-            <circle cx="94" cy="80" r="5" fill="white"/>
-            <!-- Center accent -->
-            <circle cx="60" cy="60" r="7" fill="rgba(255,255,255,0.9)"/>
-            <circle cx="60" cy="60" r="3.5" fill="#5B4FE8"/>
-          </svg>
+          <img src="diffram-logo.jpg" alt="Diffram AI Logo">
         </div>
       </div>
       <div class="about-text">
