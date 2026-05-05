@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 160" width="600" height="160">
+  <title>Diffram Horizontal Lockup</title>
+  <g transform="translate(20,20)">
+    <g fill="none" stroke="#0d1220" stroke-width="8" stroke-linejoin="miter">
+      <rect x="4" y="4" width="112" height="112"></rect>
+      <polygon points="28,4 116,4 116,100"></polygon>
+      <polygon points="4,28 100,116 4,116"></polygon>
+    </g>
+    <rect x="48" y="48" width="24" height="24" fill="#1f5fff"></rect>
+  </g>
+  <text x="180" y="105" font-family="&#39;Inter&#39;, system-ui, sans-serif" font-size="72" font-weight="500" fill="#0d1220" letter-spacing="-1.5">Diffram</text>
+</svg>
