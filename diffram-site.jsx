@@ -22,16 +22,6 @@ const NavMark = () =>
     <rect x="100" y="100" width="40" height="40" fill="var(--signal)" />
   </svg>;
 
-const HeroMark = () =>
-<svg className="hero-mark" viewBox="0 0 240 240" aria-hidden="true">
-    <g fill="none" stroke="var(--ink)" strokeWidth="6" strokeLinejoin="miter">
-      <rect x="20" y="20" width="200" height="200" />
-      <polygon points="60,20 220,20 220,180" />
-      <polygon points="20,60 180,220 20,220" />
-    </g>
-    <rect x="100" y="100" width="40" height="40" fill="var(--ink)" />
-  </svg>;
-
 
 // ---------- NAV ----------
 function Nav({ onCta }) {
@@ -43,78 +33,58 @@ function Nav({ onCta }) {
           <span className="wordmark">Diffram.</span>
         </a>
         <div className="nav-meta">
-          <span className="mono" style={{ display: 'none' }}><span className="dot" />Booking Q3</span>
           <a href="#how" className="mono">How it works</a>
           <a href="#offer" className="mono">The offer</a>
-          <button className="btn" onClick={onCta}>Start campaign <ArrowRight /></button>
+          <button className="btn" onClick={onCta}>Book a call <ArrowRight /></button>
         </div>
       </div>
     </nav>);
 
 }
 
-// ---------- HERO ----------
-function Hero({ headline, subhead, ctaLabel, availability, onCta }) {
-  // split headline so we can color the last word with signal
+// ---------- HERO (centered, eyebrow → headline → sub → video → dual CTA → context) ----------
+function Hero({ eyebrow, headline, subhead, ctaLabel, ctaSecondaryLabel, context, onCta }) {
+  // split headline so we can color the last 2-3 words with signal
   const words = headline.trim().split(' ');
-  const last = words.pop();
-  const lead = words.join(' ');
+  const tailCount = words.length >= 4 ? 2 : 1;
+  const tail = words.slice(-tailCount).join(' ');
+  const lead = words.slice(0, -tailCount).join(' ');
+
   return (
     <header className="hero page">
-      <HeroMark />
-      <div className="hero-eyebrow">
-        <span className="rule" />
-        <span className="mono">Diffram · Outbound studio · Est. 2026</span>
-      </div>
-      <h1 className="hero-h1">
-        {lead} <span className="em">{last}</span>
-      </h1>
-      <p className="hero-sub">{subhead}</p>
-      <div className="hero-cta">
-        <button className="btn btn-lg" onClick={onCta}>{ctaLabel} <ArrowRight /></button>
-        <span className="availability"><span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: 'var(--signal)', marginRight: 10, verticalAlign: 'middle' }} />{availability}</span>
+      <div className="hero-grid" />
+      <div className="hero-inner">
+        <div className="hero-eyebrow">
+          <span className="dot" />
+          {eyebrow}
+        </div>
+
+        <h1 className="hero-h1">
+          {lead} <span className="em">{tail}</span>
+        </h1>
+
+        <p className="hero-sub">{subhead}</p>
+
+        {/* Wistia VSL */}
+        <div className="hero-vsl" dangerouslySetInnerHTML={{ __html: '<wistia-player media-id="k4mz3zzon8" aspect="1.7777777777777777"></wistia-player>' }} />
+
+        <div className="hero-cta">
+          <button className="btn btn-lg" onClick={onCta}>{ctaLabel} <ArrowRight /></button>
+          <a href="#how" className="btn btn-lg btn-ghost">{ctaSecondaryLabel}</a>
+        </div>
+
+        <p className="hero-context">{context}</p>
       </div>
     </header>);
-
-}
-
-// ---------- VSL ----------
-function VSL() {
-  useEffect(() => {
-    if (!document.querySelector('script[src="https://fast.wistia.com/player.js"]')) {
-      const s1 = document.createElement('script');
-      s1.src = 'https://fast.wistia.com/player.js';
-      s1.async = true;
-      document.head.appendChild(s1);
-    }
-    if (!document.querySelector('script[src="https://fast.wistia.com/embed/wv2q1ttt8i.js"]')) {
-      const s2 = document.createElement('script');
-      s2.src = 'https://fast.wistia.com/embed/wv2q1ttt8i.js';
-      s2.async = true;
-      s2.type = 'module';
-      document.head.appendChild(s2);
-    }
-    if (!document.getElementById('wistia-swatch-style')) {
-      const style = document.createElement('style');
-      style.id = 'wistia-swatch-style';
-      style.textContent = `wistia-player[media-id='wv2q1ttt8i']:not(:defined){background:center/contain no-repeat url('https://fast.wistia.com/embed/medias/wv2q1ttt8i/swatch');display:block;filter:blur(5px);padding-top:62.08%;}`;
-      document.head.appendChild(style);
-    }
-  }, []);
-
-  return (
-    <section className="vsl page">
-      <wistia-player media-id="wv2q1ttt8i" aspect="1.610738255033557" style={{width:'100%',display:'block'}}></wistia-player>
-    </section>);
 
 }
 
 // ---------- VALUE PROP ----------
 function ValueProp({ title }) {
   const points = [
-  { h: "Infrastructure that doesn't get flagged.", b: "Dedicated domains, warmed inboxes, distributed sending. We protect deliverability so your messages land in primary, not promotions." },
-  { h: "Copy that reads like a person wrote it.", b: "No templates, no spintax, no {FirstName} accidents. Every sequence is hand-written for your offer and your ICP." },
-  { h: "Replies tagged, leads in your CRM.", b: "Interested, OOO, referral, not-now — sorted and synced live. You wake up to qualified meetings, not a spreadsheet to triage." }];
+  { h: "We carry the risk, not you.", b: "You pay per qualified meeting that lands on your calendar — and only after you accept it. If a booking doesn't fit, it's not billed." },
+  { h: "You decide what counts as qualified.", b: "We agree on the criteria up front. If a booking doesn't match — wrong title, wrong company, no real intent — flag it and it's not billed. No arguments." },
+  { h: "Month to month. Walk any time.", b: "No 6- or 12-month lock-ins. If the leads aren't moving your pipeline, you leave. We'd rather earn the next month than trap you in this one." }];
 
   const titleWords = title.trim().split(' ');
   const lastTwo = titleWords.slice(-2).join(' ');
@@ -132,7 +102,7 @@ function ValueProp({ title }) {
         </h2>
         <div className="vp-body">
           <p className="vp-lede">
-            Most agencies sell volume. We sell <strong>fit</strong>: the right message reaching the right desk, in the inbox your buyer actually opens. We run the system end-to-end so you stop managing it and start closing it.
+            Most agencies bill you for activity. We bill you for <strong>outcomes</strong>: qualified meetings on your calendar. If a booking doesn't meet the criteria you set, you don't pay for it. That's the whole deal.
           </p>
           <div className="vp-points">
             {points.map((p, i) =>
@@ -154,21 +124,21 @@ function ValueProp({ title }) {
 // ---------- OFFER ----------
 function Offer({ onCta }) {
   const steps = [
-  { n: "01", h: "Book a call.", b: "15 minutes. We audit your offer, ICP, and current outbound. If we're not a fit, we'll tell you on the spot." },
-  { n: "02", h: "We build + run a 14-day campaign.", b: "Domains, infrastructure, lead list, copy, sending, reply management — all of it. No setup fees, no card on file." },
-  { n: "03", h: "You only pay if it works.", b: "At day 14 we look at the numbers together. If the meetings landed, we continue on a monthly retainer. If they didn't, you walk — no invoice." }];
+  { n: "01", h: "Book a call.", b: "15 minutes. We map your offer, ICP, and what 'qualified' means for your team. If we're not a fit, we'll say so on the spot." },
+  { n: "02", h: "We build + run the engine.", b: "Domains, infrastructure, list, copy, sending, reply management. You don't touch it. Meetings hit your calendar within ~2 weeks of go-live." },
+  { n: "03", h: "Pay per qualified meeting.", b: "Flat rate per booking that fits the criteria you set. Reject anything that doesn't qualify and it's not billed. Cancel any month — no fees, no fight." }];
 
   return (
     <section className="pf page" id="offer">
       <div className="div-rule" />
       <div className="section-meta">
         <span className="mono">§ 02 — The offer</span>
-        <span className="mono">14 days · Risk-free</span>
+        <span className="mono">Pay per result · Month to month</span>
       </div>
       <div className="offer-wrap">
         <div className="offer-head">
-          <h2 className="pf-h">Run a campaign on us. <span style={{ color: 'var(--signal)' }}>Pay only if it lands.</span></h2>
-          <p className="pf-sub">We'll build and run your first 14-day cold email campaign at our cost. After two weeks we look at the numbers together and decide if it's worth continuing.</p>
+          <h2 className="pf-h">You only pay for meetings <span style={{ color: 'var(--signal)' }}>that actually qualify.</span></h2>
+          <p className="pf-sub">Flat fee per qualified booking. If a meeting doesn't meet the criteria we agreed on, flag it — and it's not billed.</p>
         </div>
         <div className="offer-grid">
           {steps.map((s, i) =>
@@ -180,9 +150,59 @@ function Offer({ onCta }) {
           )}
         </div>
         <div className="offer-cta-row">
-          <button className="btn btn-lg" onClick={onCta}>Start your 14-day campaign <ArrowRight /></button>
-          <span className="mono">No card. No setup fee. No commitment.</span>
+          <button className="btn btn-lg" onClick={onCta}>Book a call <ArrowRight /></button>
+          <span className="mono">No retainer · No setup fee · Month to month</span>
         </div>
+      </div>
+    </section>);
+
+}
+
+// ---------- BOOKING (Cal.com inline) ----------
+function Booking() {
+  useEffect(() => {
+    (function (C, A, L) {
+      let p = function (a, ar) {a.q.push(ar);};
+      let d = C.document;
+      C.Cal = C.Cal || function () {
+        let cal = C.Cal;let ar = arguments;
+        if (!cal.loaded) {cal.ns = {};cal.q = cal.q || [];d.head.appendChild(d.createElement("script")).src = A;cal.loaded = true;}
+        if (ar[0] === L) {
+          const api = function () {p(api, arguments);};
+          const namespace = ar[1];api.q = api.q || [];
+          if (typeof namespace === "string") {
+            cal.ns[namespace] = cal.ns[namespace] || api;
+            p(cal.ns[namespace], ar);
+            p(cal, ["initNamespace", namespace]);
+          } else p(cal, ar);
+          return;
+        }
+        p(cal, ar);
+      };
+    })(window, "https://app.cal.com/embed/embed.js", "init");
+
+    window.Cal("init", "15min", { origin: "https://app.cal.com" });
+    window.Cal.ns["15min"]("inline", {
+      elementOrSelector: "#my-cal-inline-15min",
+      config: { layout: "month_view", useSlotsViewOnSmallScreen: "true" },
+      calLink: "kieler-miller-ziw7qo/15min"
+    });
+    window.Cal.ns["15min"]("ui", { hideEventTypeDetails: false, layout: "month_view" });
+  }, []);
+
+  return (
+    <section className="booking page" id="booking">
+      <div className="div-rule" />
+      <div className="section-meta">
+        <span className="mono">§ 03 — Book a call</span>
+        <span className="mono">15-45 MIN · FREE · NO PRESSURE</span>
+      </div>
+      <div className="booking-head">
+        <h2 className="pf-h">Pick a time.</h2>
+        <p className="pf-sub">15-45 minutes. We'll map your offer and define what "qualified" means for your team. If we're not a fit, we'll say so on the call.</p>
+      </div>
+      <div className="booking-frame">
+        <div id="my-cal-inline-15min"></div>
       </div>
     </section>);
 
@@ -193,10 +213,10 @@ function FinalCTA({ onCta }) {
   return (
     <section className="final">
       <div className="final-inner">
-        <h2>Two weeks.<br />Zero risk. <span className="em">Real meetings.</span></h2>
+        <h2>Pay for meetings.<br />Not <span className="em">promises.</span></h2>
         <div className="final-row">
-          <p className="final-sub">We'll build and run your first cold email campaign at our cost. If it works, we keep going. If it doesn't, you owe nothing.</p>
-          <button className="btn btn-lg btn-light" onClick={onCta}>Start your 14-day campaign <ArrowRight /></button>
+          <p className="final-sub">We run the system, you approve the bookings, and you're only billed for the ones that qualify. No retainer. No lock-in.</p>
+          <button className="btn btn-lg btn-light" onClick={onCta}>Book a call <ArrowRight /></button>
         </div>
       </div>
     </section>);
@@ -210,10 +230,7 @@ function Foot() {
     <footer className="foot">
       <div className="foot-inner">
         <span>© {year} Diffram</span>
-        <span style={{display:'flex',gap:'20px',alignItems:'center'}}>
-          <a href="mailto:kieler@diffram.com" style={{color:'inherit',textDecoration:'none'}}>kieler@diffram.com</a>
-          <a href="https://www.linkedin.com/in/kieler-miller-870b93376/" target="_blank" rel="noopener noreferrer" style={{color:'inherit',textDecoration:'none'}}>LinkedIn</a>
-        </span>
+        <span>DIFFRAM · KIELER@DIFFRAM.COM</span>
       </div>
     </footer>);
 
@@ -225,7 +242,11 @@ function App() {
   const [tweaks, setTweak] = useTweaks(defaults);
 
   const onCta = () => {
-    window.open('https://cal.com/kieler-miller-ziw7qo/15min', '_blank', 'noopener,noreferrer');
+    const el = document.getElementById('booking');
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 24;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
   };
 
   // apply darkMode
@@ -254,24 +275,29 @@ function App() {
     <>
       <Nav onCta={onCta} />
       <Hero
+        eyebrow={tweaks.eyebrow}
         headline={tweaks.headline}
         subhead={tweaks.subhead}
         ctaLabel={tweaks.ctaLabel}
-        availability={tweaks.availability}
+        ctaSecondaryLabel={tweaks.ctaSecondaryLabel}
+        context={tweaks.context}
         onCta={onCta} />
-      
-      <VSL />
       <ValueProp title={tweaks.valuePropTitle} />
       <Offer onCta={onCta} />
+      <Booking />
       <FinalCTA onCta={onCta} />
       <Foot />
 
       <TweaksPanel title="Tweaks">
-        <TweakSection title="Copy">
+        <TweakSection title="Hero copy">
+          <TweakText label="Eyebrow" value={tweaks.eyebrow} onChange={(v) => setTweak('eyebrow', v)} />
           <TweakText label="Headline" value={tweaks.headline} onChange={(v) => setTweak('headline', v)} multiline />
           <TweakText label="Subhead" value={tweaks.subhead} onChange={(v) => setTweak('subhead', v)} multiline />
-          <TweakText label="CTA label" value={tweaks.ctaLabel} onChange={(v) => setTweak('ctaLabel', v)} />
-          <TweakText label="Availability line" value={tweaks.availability} onChange={(v) => setTweak('availability', v)} />
+          <TweakText label="Primary CTA" value={tweaks.ctaLabel} onChange={(v) => setTweak('ctaLabel', v)} />
+          <TweakText label="Secondary CTA" value={tweaks.ctaSecondaryLabel} onChange={(v) => setTweak('ctaSecondaryLabel', v)} />
+          <TweakText label="Context line" value={tweaks.context} onChange={(v) => setTweak('context', v)} />
+        </TweakSection>
+        <TweakSection title="Sections">
           <TweakText label="Value-prop title" value={tweaks.valuePropTitle} onChange={(v) => setTweak('valuePropTitle', v)} multiline />
         </TweakSection>
         <TweakSection title="Palette">
