@@ -151,7 +151,6 @@ function Offer({ onCta }) {
         </div>
         <div className="offer-cta-row">
           <button className="btn btn-lg" onClick={onCta}>Book a call <ArrowRight /></button>
-          <span className="mono">No retainer · No setup fee · Month to month</span>
         </div>
       </div>
     </section>);
