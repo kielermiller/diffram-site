@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Diffram × {{companyName}} — Your Custom Lead List</title>
+<link rel="icon" type="image/svg+xml" href="diffram-mark-signal.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+<style>
+  /* ============ TOKENS (matched to Diffram Website) ============ */
+  :root {
+    --bg: #eef0f3;
+    --paper: #f7f8fa;
+    --card: #ffffff;
+    --border: rgba(15, 23, 42, 0.08);
+    --border-strong: rgba(15, 23, 42, 0.12);
+    --blue: #2563eb;
+    --blue-tint: rgba(37, 99, 235, 0.08);
+    --blue-tint-strong: rgba(37, 99, 235, 0.18);
+    --green: #10b981;
+    --green-bg: #ecfdf5;
+    --amber: #f59e0b;
+    --amber-bg: #fffbeb;
+    --text: #0f172a;
+    --muted: #64748b;
+    --subtle: #94a3b8;
+    --hairline: #d8dde4;
+    --radius-card: 12px;
+    --radius-inner: 8px;
+    --shadow-sm: 0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
+    --shadow-md: 0 4px 14px rgba(15,23,42,0.06), 0 2px 4px rgba(15,23,42,0.04);
+    --shadow-lg: 0 12px 36px rgba(15,23,42,0.10), 0 4px 10px rgba(15,23,42,0.04);
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: transparent;
+    color: var(--text);
+    font-family: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
+    font-feature-settings: 'ss01', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
+  }
+
+  /* === Atmospheric background === */
+  .bg-atmosphere {
+    position: fixed; inset: 0; z-index: -1;
+    pointer-events: none; overflow: hidden;
+    background: var(--bg);
+  }
+  .bg-grid {
+    position: absolute; inset: -56px;
+    background-image:
+      linear-gradient(to right, rgba(15,23,42,0.10) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(15,23,42,0.10) 1px, transparent 1px);
+    background-size: 56px 56px;
+    animation: gridPan 24s linear infinite;
+    will-change: background-position;
+  }
+  @keyframes gridPan {
+    0%   { background-position: 0 0, 0 0; }
+    100% { background-position: 56px 56px, 56px 56px; }
+  }
+  .bg-blobs {
+    position: absolute; inset: -25%;
+    background:
+      radial-gradient(32% 32% at 18% 22%, rgba(37,99,235,0.40), transparent 65%),
+      radial-gradient(30% 30% at 82% 78%, rgba(16,185,129,0.32), transparent 65%),
+      radial-gradient(28% 28% at 72% 18%, rgba(245,158,11,0.22), transparent 65%),
+      radial-gradient(34% 34% at 22% 82%, rgba(139,92,246,0.26), transparent 65%);
+    filter: blur(50px);
+    animation: drift 18s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+  @keyframes drift {
+    0%   { transform: translate3d(-5%, 3%, 0) scale(1.00); }
+    33%  { transform: translate3d(6%, -4%, 0) scale(1.10); }
+    66%  { transform: translate3d(-3%, -2%, 0) scale(1.05); }
+    100% { transform: translate3d(4%, 4%, 0) scale(1.12); }
+  }
+
+  /* Floating shapes */
+  .bg-shape { position: absolute; will-change: transform; }
+  .bg-shape svg { display: block; width: 100%; height: 100%; }
+  .bg-shape.s1 { top: 8%;  left: 6%;  width: 130px; height: 130px; color: var(--blue);  opacity: 0.55; animation: float1 22s ease-in-out infinite; }
+  .bg-shape.s2 { top: 64%; left: 4%;  width: 110px; height: 110px; color: var(--green); opacity: 0.50; animation: float2 28s ease-in-out infinite; }
+  .bg-shape.s3 { top: 18%; right: 8%; width: 160px; height: 160px; color: #8b5cf6;      opacity: 0.45; animation: float3 26s ease-in-out infinite; }
+  .bg-shape.s4 { top: 78%; right: 12%; width: 120px; height: 120px; color: var(--amber); opacity: 0.55; animation: float4 24s ease-in-out infinite; }
+  .bg-shape.s5 { top: 42%; left: 46%; width: 90px;  height: 90px;  color: var(--blue);  opacity: 0.45; animation: float5 20s ease-in-out infinite; }
+  @keyframes float1 { 0%, 100% { transform: translate(0,0) rotate(0deg); }   50% { transform: translate(60px, 40px) rotate(180deg); } }
+  @keyframes float2 { 0%, 100% { transform: translate(0,0) rotate(0deg); }   50% { transform: translate(80px, -50px) rotate(-160deg); } }
+  @keyframes float3 { 0%, 100% { transform: translate(0,0) rotate(0deg); }   50% { transform: translate(-70px, 60px) rotate(140deg); } }
+  @keyframes float4 { 0%, 100% { transform: translate(0,0) rotate(0deg); }   50% { transform: translate(-80px, -50px) rotate(-200deg); } }
+  @keyframes float5 { 0%, 100% { transform: translate(0,0) rotate(0deg); }   50% { transform: translate(90px, 60px) rotate(360deg); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bg-grid, .bg-blobs, .bg-shape { animation: none !important; }
+  }
+
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; }
+  .page { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+
+  /* ============ NAV ============ */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in oklab, var(--bg) 84%, transparent);
+    backdrop-filter: saturate(140%) blur(14px);
+    -webkit-backdrop-filter: saturate(140%) blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 68px;
+  }
+  .nav-brand {
+    display: flex; align-items: center; gap: 12px; color: var(--text);
+  }
+  .nav-brand .mark { width: 26px; height: 26px; color: var(--text); flex-shrink: 0; }
+  .nav-brand .wordmark {
+    font-size: 22px; font-weight: 500;
+    letter-spacing: -0.02em;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .nav-collab {
+    display: flex; align-items: center; gap: 14px;
+    font-size: 16px; font-weight: 600; letter-spacing: -0.01em;
+  }
+  .nav-x {
+    color: var(--subtle); font-weight: 400; font-size: 18px;
+  }
+  .nav-prospect {
+    color: var(--blue); font-weight: 700;
+  }
+
+  /* ============ BUTTONS ============ */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font-size: 14px; font-weight: 600;
+    padding: 12px 20px;
+    border-radius: var(--radius-inner);
+    border: 1px solid transparent;
+    transition: background .15s ease, transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary {
+    background: var(--blue); color: #ffffff;
+    box-shadow: 0 4px 14px rgba(37,99,235,0.25);
+  }
+  .btn-primary:hover { background: #1d54d8; box-shadow: 0 6px 18px rgba(37,99,235,0.35); }
+  .btn-ghost {
+    background: transparent; color: var(--text);
+    border-color: var(--border-strong);
+  }
+  .btn-ghost:hover { background: var(--card); }
+  .btn-lg { font-size: 16px; padding: 16px 28px; border-radius: 10px; }
+  .btn .arrow { width: 14px; height: 14px; }
+
+  /* ============ SECTIONS ============ */
+  .section { padding: 96px 0; }
+  .section-narrow { padding: 72px 0; }
+  .section-head {
+    text-align: center; max-width: 720px; margin: 0 auto 56px;
+  }
+  .eyebrow {
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--blue); margin: 0 0 16px;
+    display: inline-block;
+  }
+  .h1 {
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 800; letter-spacing: -0.025em;
+    line-height: 1.05; margin: 0; color: var(--text);
+    text-wrap: balance;
+  }
+  .h2 {
+    font-size: clamp(32px, 4.2vw, 48px);
+    font-weight: 800; letter-spacing: -0.02em;
+    line-height: 1.1; margin: 0; color: var(--text);
+    text-wrap: balance;
+  }
+  .lede {
+    font-size: 18px; line-height: 1.55;
+    color: var(--muted); max-width: 580px;
+    margin: 20px auto 0; text-wrap: balance;
+  }
+
+  /* ============ HERO ============ */
+  .hero { padding: 88px 0 48px; text-align: center; }
+  .hero .h1 { max-width: 880px; margin: 0 auto; }
+  .hero-accent { color: var(--blue); }
+  .hero-cta {
+    display: flex; gap: 12px; justify-content: center;
+    flex-wrap: wrap; margin-top: 36px;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 18px; font-size: 13px; color: var(--muted);
+  }
+  .hero-badge .dot {
+    width: 6px; height: 6px; border-radius: 999px; background: var(--green);
+  }
+
+  /* ============ CARD ============ */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-sm);
+    padding: 24px;
+  }
+
+  /* ============ LOOM SECTION ============ */
+  .loom-wrap { padding: 16px 0 72px; }
+  .loom-inner {
+    max-width: 960px; margin: 0 auto;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    background: #0d1220;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border);
+  }
+  .loom-inner iframe {
+    display: block; width: 100%; aspect-ratio: 16/9; border: none;
+  }
+  .loom-placeholder {
+    display: flex; align-items: center; justify-content: center;
+    aspect-ratio: 16/9; color: var(--subtle);
+    font-size: 16px; font-weight: 600;
+    background: #0d1220;
+  }
+
+  /* ============ LEAD LIST TABLE ============ */
+  .list-section { padding: 0 0 96px; }
+  .list-header {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
+  }
+  .list-count {
+    font-size: 14px; color: var(--muted); font-weight: 500;
+  }
+  .list-count strong { color: var(--text); font-weight: 700; }
+  .table-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+  .lead-table {
+    width: 100%; border-collapse: collapse;
+    font-size: 14px;
+  }
+  .lead-table thead th {
+    text-align: left;
+    padding: 14px 16px;
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+    color: var(--muted);
+    background: var(--paper);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0;
+  }
+  .lead-table tbody td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: middle;
+  }
+  .lead-table tbody tr:last-child td { border-bottom: none; }
+  .lead-table tbody tr {
+    transition: background .1s ease;
+  }
+  .lead-table tbody tr:hover { background: var(--blue-tint); }
+  .td-company {
+    font-weight: 600;
+  }
+  .td-title {
+    color: var(--muted);
+  }
+  .td-industry .pill {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px; font-weight: 600;
+    background: var(--blue-tint);
+    color: var(--blue);
+  }
+  .td-employees {
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+  }
+
+  /* ============ BOTTOM CTA ============ */
+  .final-cta {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow-md);
+    padding: 80px 40px;
+    text-align: center;
+    max-width: 920px;
+    margin: 0 auto;
+  }
+  .final-cta .h2 { margin-bottom: 16px; }
+  .final-cta .lede { margin-bottom: 36px; }
+
+  /* ============ FOOTER ============ */
+  .foot {
+    border-top: 1px solid var(--border);
+    padding: 32px 0 40px; margin-top: 96px;
+  }
+  .foot-inner {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 24px; flex-wrap: wrap;
+    font-size: 13px; color: var(--muted);
+  }
+  .foot-brand { font-weight: 800; color: var(--text); font-size: 16px; letter-spacing: -0.01em; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 900px) {
+    .page { padding: 0 24px; }
+    .section { padding: 72px 0; }
+    .hero { padding: 56px 0 32px; }
+    .final-cta { padding: 56px 24px; }
+    .lead-table { font-size: 13px; }
+    .lead-table thead th, .lead-table tbody td { padding: 12px; }
+  }
+  @media (max-width: 540px) {
+    .nav-collab { font-size: 14px; }
+    .lead-table .col-industry,
+    .lead-table .col-employees { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ ANIMATED BACKGROUND ============ -->
+<div class="bg-atmosphere" aria-hidden="true">
+  <div class="bg-grid"></div>
+  <div class="bg-blobs"></div>
+  <div class="bg-shape s1">
+    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="10" y="10" width="80" height="80"/></svg>
+  </div>
+  <div class="bg-shape s2">
+    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="50" cy="50" r="40"/></svg>
+  </div>
+  <div class="bg-shape s3">
+    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="50,10 90,85 10,85"/></svg>
+  </div>
+  <div class="bg-shape s4">
+    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M50 8 L92 50 L50 92 L8 50 Z"/></svg>
+  </div>
+  <div class="bg-shape s5">
+    <svg viewBox="0 0 100 100" fill="currentColor">
+      <circle cx="50" cy="50" r="6"/><circle cx="20" cy="20" r="4"/><circle cx="80" cy="20" r="4"/><circle cx="20" cy="80" r="4"/><circle cx="80" cy="80" r="4"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="page nav-inner">
+    <a class="nav-brand" href="https://diffram.com" aria-label="Diffram">
+      <svg class="mark" viewBox="0 0 240 240" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="14" stroke-linejoin="miter">
+          <rect x="20" y="20" width="200" height="200"/>
+          <polygon points="60,20 220,20 220,180"/>
+          <polygon points="20,60 180,220 20,220"/>
+        </g>
+        <rect x="100" y="100" width="40" height="40" fill="#2563eb"/>
+      </svg>
+      <span class="wordmark">Diffram.</span>
+    </a>
+    <div class="nav-collab">
+      <span>Diffram</span>
+      <span class="nav-x">&times;</span>
+      <span class="nav-prospect">{{companyName}}</span>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="page">
+      <p class="eyebrow">PREPARED FOR {{firstName}}</p>
+      <h1 class="h1">{{firstName}}, here are <span class="hero-accent">{{leadCount}} leads</span> for <span class="hero-accent">{{companyName}}</span>.</h1>
+      <p class="lede">{{personalizedLede}}</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary btn-lg" href="#leads">
+          See your leads
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a class="btn btn-ghost btn-lg" href="#loom">Watch the walkthrough</a>
+      </div>
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Built for {{companyName}} on {{date}}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LOOM ============ -->
+  <section class="loom-wrap" id="loom">
+    <div class="page">
+      <div class="loom-inner">
+        <!-- Replace {{loomId}} with the Loom video share ID -->
+        <!-- Example: https://www.loom.com/share/abc123 → loomId = abc123 -->
+        <iframe
+          src="https://www.loom.com/embed/{{loomId}}?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=true"
+          allowfullscreen
+          allow="autoplay; fullscreen"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LEAD LIST ============ -->
+  <section class="list-section" id="leads">
+    <div class="page">
+      <div class="section-head">
+        <p class="eyebrow">YOUR LEAD LIST</p>
+        <h2 class="h2">{{leadCount}} leads, yours to keep.</h2>
+        <p class="lede">Verified decision-makers at companies similar to {{companyName}}'s current and past clients. This list is yours — no strings attached.</p>
+      </div>
+
+      <div class="list-header">
+        <div class="list-count"><strong>{{leadCount}}</strong> leads</div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="lead-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Title</th>
+              <th>Company</th>
+              <th class="col-industry">Industry</th>
+              <th class="col-employees">Employees</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- VISIBLE ROWS — replace with real prospect data -->
+            <tr>
+              <td class="td-company">{{lead1_name}}</td>
+              <td class="td-title">{{lead1_title}}</td>
+              <td>{{lead1_company}}</td>
+              <td class="col-industry"><span class="td-industry"><span class="pill">{{lead1_industry}}</span></span></td>
+              <td class="col-employees td-employees">{{lead1_employees}}</td>
+            </tr>
+            <tr>
+              <td class="td-company">{{lead2_name}}</td>
+              <td class="td-title">{{lead2_title}}</td>
+              <td>{{lead2_company}}</td>
+              <td class="col-industry"><span class="td-industry"><span class="pill">{{lead2_industry}}</span></span></td>
+              <td class="col-employees td-employees">{{lead2_employees}}</td>
+            </tr>
+            <tr>
+              <td class="td-company">{{lead3_name}}</td>
+              <td class="td-title">{{lead3_title}}</td>
+              <td>{{lead3_company}}</td>
+              <td class="col-industry"><span class="td-industry"><span class="pill">{{lead3_industry}}</span></span></td>
+              <td class="col-employees td-employees">{{lead3_employees}}</td>
+            </tr>
+            <tr>
+              <td class="td-company">{{lead4_name}}</td>
+              <td class="td-title">{{lead4_title}}</td>
+              <td>{{lead4_company}}</td>
+              <td class="col-industry"><span class="td-industry"><span class="pill">{{lead4_industry}}</span></span></td>
+              <td class="col-employees td-employees">{{lead4_employees}}</td>
+            </tr>
+            <tr>
+              <td class="td-company">{{lead5_name}}</td>
+              <td class="td-title">{{lead5_title}}</td>
+              <td>{{lead5_company}}</td>
+              <td class="col-industry"><span class="td-industry"><span class="pill">{{lead5_industry}}</span></span></td>
+              <td class="col-employees td-employees">{{lead5_employees}}</td>
+            </tr>
+            <!-- Add all lead rows here — no blur, full list visible -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="section-narrow" id="cta">
+    <div class="page">
+      <div class="final-cta">
+        <p class="eyebrow">LIKED THIS?</p>
+        <h2 class="h2">We can build this for you, every month.</h2>
+        <p class="lede">This lead list took us a couple hours to put together. Imagine getting a fresh batch like this every week — with the emails written, sent, and replies managed for you.</p>
+        <a class="btn btn-primary btn-lg" href="https://cal.com/kieler-miller-ziw7qo/15min">
+          Book a call with Kieler
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div class="page foot-inner">
+    <div class="foot-brand">
+      <svg width="22" height="22" viewBox="0 0 240 240" aria-hidden="true" style="vertical-align:-4px; margin-right:8px;">
+        <g fill="none" stroke="currentColor" stroke-width="14" stroke-linejoin="miter">
+          <rect x="20" y="20" width="200" height="200"/>
+          <polygon points="60,20 220,20 220,180"/>
+          <polygon points="20,60 180,220 20,220"/>
+        </g>
+        <rect x="100" y="100" width="40" height="40" fill="#2563eb"/>
+      </svg>
+      Diffram.
+    </div>
+    <div>&copy; 2026 Diffram &middot; Built for {{companyName}}</div>
+  </div>
+</footer>
+
+</body>
+</html>
