@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Diffram × USA Recruiters · Proposal</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+<style>
+  /* ============ TOKENS ============ */
+  :root {
+    --bg: #eef0f3;
+    --paper: #f7f8fa;
+    --card: #ffffff;
+    --border: rgba(15, 23, 42, 0.08);
+    --border-strong: rgba(15, 23, 42, 0.12);
+    --blue: #2563eb;
+    --blue-tint: rgba(37, 99, 235, 0.08);
+    --blue-tint-strong: rgba(37, 99, 235, 0.18);
+    --green: #10b981;
+    --green-bg: #ecfdf5;
+    --amber: #f59e0b;
+    --amber-bg: #fffbeb;
+    --text: #0f172a;
+    --muted: #64748b;
+    --subtle: #94a3b8;
+    --hairline: #d8dde4;
+    --radius-card: 12px;
+    --radius-inner: 8px;
+    --shadow-sm: 0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
+    --shadow-md: 0 4px 14px rgba(15,23,42,0.06), 0 2px 4px rgba(15,23,42,0.04);
+    --shadow-lg: 0 12px 36px rgba(15,23,42,0.10), 0 4px 10px rgba(15,23,42,0.04);
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: transparent;
+    color: var(--text);
+    font-family: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
+    font-feature-settings: 'ss01', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
+  }
+
+  /* === Atmospheric background === */
+  .bg-atmosphere { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; background: var(--bg); }
+  .bg-grid {
+    position: absolute; inset: -56px;
+    background-image:
+      linear-gradient(to right, rgba(15,23,42,0.10) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(15,23,42,0.10) 1px, transparent 1px);
+    background-size: 56px 56px;
+    animation: gridPan 24s linear infinite; will-change: background-position;
+  }
+  @keyframes gridPan { 0% { background-position: 0 0, 0 0; } 100% { background-position: 56px 56px, 56px 56px; } }
+  .bg-blobs {
+    position: absolute; inset: -25%;
+    background:
+      radial-gradient(32% 32% at 18% 22%, rgba(37,99,235,0.40), transparent 65%),
+      radial-gradient(30% 30% at 82% 78%, rgba(16,185,129,0.32), transparent 65%),
+      radial-gradient(28% 28% at 72% 18%, rgba(245,158,11,0.22), transparent 65%),
+      radial-gradient(34% 34% at 22% 82%, rgba(139,92,246,0.26), transparent 65%);
+    filter: blur(50px); animation: drift 18s ease-in-out infinite alternate; will-change: transform;
+  }
+  @keyframes drift {
+    0% { transform: translate3d(-5%, 3%, 0) scale(1.00); }
+    33% { transform: translate3d(6%, -4%, 0) scale(1.10); }
+    66% { transform: translate3d(-3%, -2%, 0) scale(1.05); }
+    100% { transform: translate3d(4%, 4%, 0) scale(1.12); }
+  }
+  .bg-shape { position: absolute; will-change: transform; }
+  .bg-shape svg { display: block; width: 100%; height: 100%; }
+  .bg-shape.s1 { top: 8%; left: 6%; width: 130px; height: 130px; color: var(--blue); opacity: 0.55; animation: float1 22s ease-in-out infinite; }
+  .bg-shape.s2 { top: 64%; left: 4%; width: 110px; height: 110px; color: var(--green); opacity: 0.50; animation: float2 28s ease-in-out infinite; }
+  .bg-shape.s3 { top: 18%; right: 8%; width: 160px; height: 160px; color: #8b5cf6; opacity: 0.45; animation: float3 26s ease-in-out infinite; }
+  .bg-shape.s4 { top: 78%; right: 12%; width: 120px; height: 120px; color: var(--amber); opacity: 0.55; animation: float4 24s ease-in-out infinite; }
+  .bg-shape.s5 { top: 42%; left: 46%; width: 90px; height: 90px; color: var(--blue); opacity: 0.45; animation: float5 20s ease-in-out infinite; }
+  @keyframes float1 { 0%, 100% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(60px, 40px) rotate(180deg); } }
+  @keyframes float2 { 0%, 100% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(80px, -50px) rotate(-160deg); } }
+  @keyframes float3 { 0%, 100% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(-70px, 60px) rotate(140deg); } }
+  @keyframes float4 { 0%, 100% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(-80px, -50px) rotate(-200deg); } }
+  @keyframes float5 { 0%, 100% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(90px, 60px) rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .bg-grid, .bg-blobs, .bg-shape { animation: none !important; } }
+
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; }
+  .page { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+
+  /* ============ CONTENT SHEET (calm surface over the moving bg) ============ */
+  main {
+    position: relative;
+    max-width: 1200px;
+    margin: 28px auto 0;
+    background: rgba(247, 248, 250, 0.94);
+    backdrop-filter: saturate(135%) blur(7px);
+    -webkit-backdrop-filter: saturate(135%) blur(7px);
+    border: 1px solid var(--border-strong);
+    border-radius: 24px;
+    box-shadow: var(--shadow-lg);
+  }
+  @media (max-width: 900px) {
+    main { margin: 0; border-radius: 0; border-left: none; border-right: none; }
+  }
+
+  /* ============ NAV ============ */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in oklab, var(--bg) 84%, transparent);
+    backdrop-filter: saturate(140%) blur(14px);
+    -webkit-backdrop-filter: saturate(140%) blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+  .nav-brand { display: flex; align-items: center; gap: 12px; color: var(--text); }
+  .nav-brand .mark { width: 26px; height: 26px; color: var(--text); flex-shrink: 0; }
+  .nav-brand .wordmark { font-size: 22px; font-weight: 500; letter-spacing: -0.02em; font-family: 'Inter', system-ui, sans-serif; }
+  .nav-collab { display: flex; align-items: center; gap: 14px; font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
+  .nav-x { color: var(--subtle); font-weight: 400; font-size: 18px; }
+  .nav-prospect { color: var(--blue); font-weight: 700; }
+
+  /* ============ BUTTONS ============ */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font-size: 14px; font-weight: 600; padding: 12px 20px;
+    border-radius: var(--radius-inner); border: 1px solid transparent;
+    transition: background .15s ease, transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary { background: var(--blue); color: #ffffff; box-shadow: 0 4px 14px rgba(37,99,235,0.25); }
+  .btn-primary:hover { background: #1d54d8; box-shadow: 0 6px 18px rgba(37,99,235,0.35); }
+  .btn-ghost { background: transparent; color: var(--text); border-color: var(--border-strong); }
+  .btn-ghost:hover { background: var(--card); }
+  .btn-lg { font-size: 16px; padding: 16px 28px; border-radius: 10px; }
+  .btn .arrow { width: 14px; height: 14px; }
+
+  /* ============ SECTIONS ============ */
+  .section { padding: 88px 0; }
+  .section-head { text-align: center; max-width: 760px; margin: 0 auto 56px; }
+  .eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--blue); margin: 0 0 16px; display: inline-block; }
+  .h1 { font-size: clamp(40px, 6vw, 68px); font-weight: 800; letter-spacing: -0.025em; line-height: 1.05; margin: 0; color: var(--text); text-wrap: balance; }
+  .h2 { font-size: clamp(30px, 4.2vw, 44px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; margin: 0; color: var(--text); text-wrap: balance; }
+  .lede { font-size: 18px; line-height: 1.55; color: var(--muted); max-width: 600px; margin: 20px auto 0; text-wrap: balance; }
+
+  /* ============ HERO ============ */
+  .hero { padding: 80px 0 40px; text-align: center; }
+  .hero .h1 { max-width: 900px; margin: 0 auto; }
+  .hero-accent { color: var(--blue); }
+  .hero-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 36px; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; font-size: 13px; color: var(--muted); }
+  .hero-badge .dot { width: 6px; height: 6px; border-radius: 999px; background: var(--green); }
+
+  /* ============ STAT STRIP ============ */
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 920px; margin: 0 auto; }
+  .stat { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-card); box-shadow: var(--shadow-sm); padding: 28px 24px; text-align: center; }
+  .stat .num { font-size: clamp(34px, 5vw, 48px); font-weight: 800; letter-spacing: -0.02em; line-height: 1; color: var(--blue); font-variant-numeric: tabular-nums; }
+  .stat .num.green { color: var(--green); }
+  .stat .num.amber { color: var(--amber); }
+  .stat .label { font-size: 14px; color: var(--muted); margin-top: 12px; }
+
+  /* ============ STEPS ============ */
+  .steps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 940px; margin: 0 auto; }
+  .step { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-card); box-shadow: var(--shadow-sm); padding: 28px; }
+  .step .step-num { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 999px; background: var(--blue-tint); color: var(--blue); font-weight: 800; font-size: 15px; margin-bottom: 16px; }
+  .step h3 { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 8px; }
+  .step p { font-size: 15px; color: var(--muted); margin: 0; line-height: 1.55; }
+
+  /* ============ OPS SPLIT (who does what) ============ */
+  .split { display: grid; grid-template-columns: 1.45fr 1fr; gap: 24px; max-width: 980px; margin: 0 auto; align-items: start; }
+  .do-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-card); box-shadow: var(--shadow-sm); padding: 32px; }
+  .do-card.dfm { border: 2px solid var(--blue); box-shadow: var(--shadow-lg); }
+  .do-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+  .do-head h3 { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; margin: 0; }
+  .do-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 5px 11px; border-radius: 999px; }
+  .do-tag.blue { background: var(--blue); color: #fff; }
+  .do-tag.soft { background: var(--paper); color: var(--muted); }
+  .do-sub { font-size: 14px; color: var(--muted); margin: 0 0 22px; }
+  .do-list { list-style: none; padding: 0; margin: 0; }
+  .do-list li { display: flex; align-items: flex-start; gap: 12px; padding: 11px 0; font-size: 15px; line-height: 1.45; border-bottom: 1px solid var(--border); }
+  .do-list li:last-child { border-bottom: none; }
+  .do-list .chk { flex-shrink: 0; width: 22px; height: 22px; border-radius: 999px; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+  .do-list .chk svg { width: 13px; height: 13px; }
+  .do-card.dfm .chk { background: var(--blue-tint); color: var(--blue); }
+  .do-card.you .chk { background: var(--green-bg); color: var(--green); }
+  .do-foot { margin-top: 22px; font-size: 14px; color: var(--text); background: var(--blue-tint); border-radius: var(--radius-inner); padding: 14px 16px; line-height: 1.5; }
+  .do-card.you .do-rest { margin-top: 20px; font-size: 15px; font-weight: 700; color: var(--green); }
+
+  /* ============ TIMELINE ============ */
+  .timeline { max-width: 880px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; position: relative; }
+  .tl-line { position: absolute; top: 27px; left: 12%; right: 12%; height: 2px; background: linear-gradient(90deg, var(--blue), var(--green)); z-index: 0; }
+  .tl-step { text-align: center; padding: 0 16px; position: relative; z-index: 1; }
+  .tl-dot { width: 54px; height: 54px; border-radius: 999px; background: var(--card); border: 2px solid var(--blue); color: var(--blue); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; margin: 0 auto 18px; box-shadow: var(--shadow-sm); }
+  .tl-step:last-child .tl-dot { border-color: var(--green); color: var(--green); }
+  .tl-step h4 { font-size: 16px; font-weight: 700; margin: 0 0 6px; letter-spacing: -0.01em; }
+  .tl-step p { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.5; }
+
+  /* ============ PRICING ============ */
+  .pricing { display: grid; grid-template-columns: 1.15fr 1fr; gap: 24px; max-width: 940px; margin: 0 auto; align-items: start; }
+  .price-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-card); box-shadow: var(--shadow-sm); padding: 32px; position: relative; }
+  .price-card.featured { border: 2px solid var(--blue); box-shadow: var(--shadow-lg); }
+  .price-badge { position: absolute; top: -13px; left: 32px; background: var(--blue); color: #fff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 6px 14px; border-radius: 999px; }
+  .price-card .opt { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+  .price-card h3 { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; margin: 8px 0 4px; }
+  .price-card .sub { font-size: 15px; color: var(--muted); margin: 0 0 22px; line-height: 1.5; }
+  .price-rows { list-style: none; padding: 0; margin: 0 0 22px; }
+  .price-rows li { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 13px 0; border-bottom: 1px dashed var(--border); font-size: 15px; }
+  .price-rows li:last-child { border-bottom: none; }
+  .price-rows .pk { color: var(--muted); }
+  .price-rows .pv { font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .price-rows .pv.blue { color: var(--blue); }
+  .price-note { font-size: 14px; color: var(--text); background: var(--blue-tint); border-radius: var(--radius-inner); padding: 14px 16px; line-height: 1.5; }
+  .price-note.plain { background: var(--paper); color: var(--muted); }
+
+  /* ============ CALLOUT ============ */
+  .callout { max-width: 880px; margin: 0 auto; background: var(--green-bg); border: 1px solid rgba(16,185,129,0.25); border-radius: var(--radius-card); padding: 28px 32px; display: flex; gap: 18px; align-items: flex-start; }
+  .callout .ico { flex-shrink: 0; width: 40px; height: 40px; border-radius: 999px; background: var(--green); color: #fff; display: flex; align-items: center; justify-content: center; }
+  .callout .ico svg { width: 22px; height: 22px; }
+  .callout p { margin: 0; font-size: 16px; line-height: 1.55; color: var(--text); }
+  .callout strong { font-weight: 800; }
+
+  /* ============ FINAL CTA ============ */
+  .final-cta { background: var(--card); border: 1px solid var(--border); border-radius: 20px; box-shadow: var(--shadow-md); padding: 72px 40px; text-align: center; max-width: 920px; margin: 0 auto; }
+  .final-cta .h2 { margin-bottom: 16px; }
+  .final-cta .lede { margin-bottom: 32px; }
+  .cta-steps { display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; margin-bottom: 36px; text-align: left; }
+  .cta-step { display: flex; gap: 12px; align-items: center; font-size: 15px; color: var(--muted); }
+  .cta-step .n { width: 26px; height: 26px; border-radius: 999px; background: var(--blue-tint); color: var(--blue); font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+  /* ============ FOOTER ============ */
+  .foot { border-top: 1px solid var(--border); padding: 32px 0 40px; margin-top: 88px; }
+  .foot-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+  .foot-brand { font-weight: 800; color: var(--text); font-size: 16px; letter-spacing: -0.01em; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 900px) {
+    .page { padding: 0 24px; }
+    .section { padding: 64px 0; }
+    .hero { padding: 48px 0 28px; }
+    .stats, .steps, .pricing { grid-template-columns: 1fr; }
+    .timeline { grid-template-columns: 1fr; gap: 28px; }
+    .tl-line { display: none; }
+    .final-cta { padding: 52px 24px; }
+    .ops-table { font-size: 14px; }
+    .ops-table thead th, .ops-table tbody td { padding: 13px 14px; }
+    .ops-table td.row-label { width: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ ANIMATED BACKGROUND ============ -->
+<div class="bg-atmosphere" aria-hidden="true">
+  <div class="bg-grid"></div>
+  <div class="bg-blobs"></div>
+  <div class="bg-shape s1"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="10" y="10" width="80" height="80"/></svg></div>
+  <div class="bg-shape s2"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="50" cy="50" r="40"/></svg></div>
+  <div class="bg-shape s3"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="50,10 90,85 10,85"/></svg></div>
+  <div class="bg-shape s4"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M50 8 L92 50 L50 92 L8 50 Z"/></svg></div>
+  <div class="bg-shape s5"><svg viewBox="0 0 100 100" fill="currentColor"><circle cx="50" cy="50" r="6"/><circle cx="20" cy="20" r="4"/><circle cx="80" cy="20" r="4"/><circle cx="20" cy="80" r="4"/><circle cx="80" cy="80" r="4"/></svg></div>
+</div>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="page nav-inner">
+    <a class="nav-brand" href="https://diffram.com" aria-label="Diffram">
+      <svg class="mark" viewBox="0 0 240 240" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="14" stroke-linejoin="miter">
+          <rect x="20" y="20" width="200" height="200"/>
+          <polygon points="60,20 220,20 220,180"/>
+          <polygon points="20,60 180,220 20,220"/>
+        </g>
+        <rect x="100" y="100" width="40" height="40" fill="#2563eb"/>
+      </svg>
+      <span class="wordmark">Diffram.</span>
+    </a>
+    <div class="nav-collab">
+      <span>Diffram</span>
+      <span class="nav-x">&times;</span>
+      <span class="nav-prospect">USA Recruiters</span>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="page">
+      <p class="eyebrow">PREPARED FOR JON RHEAULT</p>
+      <h1 class="h1">A second engine for your <span class="hero-accent">400k advisors</span>.</h1>
+      <p class="lede">Your current vendor is working one slice and may be at capacity. We run a separate slice in parallel. No overlap, no double-touch, more of your database getting worked every week.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary btn-lg" href="#pricing">
+          See the pricing
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a class="btn btn-ghost btn-lg" href="#how">How it runs</a>
+      </div>
+      <div class="hero-badge"><span class="dot"></span> Prepared for USA Recruiters · June 2026</div>
+    </div>
+  </section>
+
+  <!-- ============ STAT STRIP ============ -->
+  <section class="section" style="padding-top:32px;">
+    <div class="page">
+      <div class="stats">
+        <div class="stat"><div class="num">750k</div><div class="label">Advisors in your database</div></div>
+        <div class="stat"><div class="num green">400k</div><div class="label">High-potential, worth working</div></div>
+        <div class="stat"><div class="num amber">1</div><div class="label">Vendor covering it today</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT RUNS ============ -->
+  <section class="section" id="how" style="padding-top:24px;">
+    <div class="page">
+      <div class="section-head">
+        <p class="eyebrow">HOW IT RUNS</p>
+        <h2 class="h2">Built for quality, not just volume.</h2>
+        <p class="lede">Every meeting that reaches your calendar has already passed a real conversation.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">1</span>
+          <h3>We take a segment your current vendor isn't touching</h3>
+          <p>Your database gets split into tight groups – by state, firm type, book size, whatever sorts cleanest. Each group gets messaging written for that group, not a blanket template.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <h3>Personalized campaigns go out</h3>
+          <p>Hyper-segmented sends, hand-written copy. Advisors can smell a bot, so a person writes every message and a person manages every reply.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <h3>We phone-screen before booking</h3>
+          <p>Every positive reply gets a call from us first. You only see meetings that already passed a real conversation – not raw replies.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">4</span>
+          <h3>Booked straight to your calendar</h3>
+          <p>Qualified meetings land on your calendar, or Dawn's – your call on the handoff. You see every send, reply, and booking the whole time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SIDE-BY-SIDE OPS ============ -->
+  <section class="section" id="ops" style="padding-top:24px;">
+    <div class="page">
+      <div class="section-head">
+        <p class="eyebrow">WHO DOES WHAT</p>
+        <h2 class="h2">We carry the operation. You take the calls.</h2>
+        <p class="lede">This is done-for-you. The list, the copy, the infrastructure, the calling – all on us. Your team shows up to conversations that already qualified.</p>
+      </div>
+      <div class="split">
+        <div class="do-card dfm">
+          <div class="do-head">
+            <h3>Diffram handles</h3>
+            <span class="do-tag blue">Done for you</span>
+          </div>
+          <p class="do-sub">Everything it takes to turn your database into booked calls.</p>
+          <ul class="do-list">
+            <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Buying all the sending infrastructure</li>
+            <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Getting it ready and ramping it up before we send</li>
+            <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Building and hyper-segmenting your list</li>
+            <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Writing every line of copy, segment by segment</li>
+            <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Keeping you out of spam folders and in the inbox</li>
+            <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Sending the campaigns and managing every reply</li>
+            <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Calling and qualifying every interested advisor</li>
+            <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Setting the appointment on your calendar</li>
+          </ul>
+          <p class="do-foot">All the heavy lifting – infrastructure, copy, deliverability, calling – sits with us. That's the work most firms underestimate.</p>
+        </div>
+        <div class="do-card you">
+          <div class="do-head">
+            <h3>You handle</h3>
+            <span class="do-tag soft">Two things</span>
+          </div>
+          <p class="do-sub">The parts only you should own.</p>
+          <ul class="do-list">
+            <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Approve the copy before it goes out</li>
+            <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Take the qualified calls we book</li>
+          </ul>
+          <p class="do-rest">That's it. The rest is ours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ONBOARDING TIMELINE ============ -->
+  <section class="section" id="start" style="padding-top:24px;">
+    <div class="page">
+      <div class="section-head">
+        <p class="eyebrow">GETTING STARTED</p>
+        <h2 class="h2">Live within a week. Yours for the long run.</h2>
+      </div>
+      <div class="timeline">
+        <div class="tl-line"></div>
+        <div class="tl-step">
+          <div class="tl-dot">Wk 1</div>
+          <h4>Go live fast</h4>
+          <p>We send off our own infrastructure so campaigns start right away. Nothing to set up on your end.</p>
+        </div>
+        <div class="tl-step">
+          <div class="tl-dot">Wk 2–4</div>
+          <h4>A 3-week ramp</h4>
+          <p>Sending volume builds steadily to protect long-term reputation – no spikes, no flags.</p>
+        </div>
+        <div class="tl-step">
+          <div class="tl-dot">Wk 4+</div>
+          <h4>Move to your domains</h4>
+          <p>We migrate sending onto your own domains. You keep the asset and the sending reputation we built.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRICING ============ -->
+  <section class="section" id="pricing" style="padding-top:24px;">
+    <div class="page">
+      <div class="section-head">
+        <p class="eyebrow">PRICING</p>
+        <h2 class="h2">Two ways to do it.</h2>
+        <p class="lede">Pick the model that fits how you'd rather pay. Same operation either way.</p>
+      </div>
+      <div class="pricing">
+        <div class="price-card featured">
+          <span class="price-badge">Recommended</span>
+          <p class="opt">Option 1</p>
+          <h3>Tech fee + pay per meeting</h3>
+          <p class="sub">You're mostly paying for results. The tech fee scales with volume.</p>
+          <ul class="price-rows">
+            <li><span class="pk">1,000 emails/day · ~20,000/mo</span><span class="pv">$750/mo</span></li>
+            <li><span class="pk">1,500 emails/day · ~30,000/mo</span><span class="pv">$1,000/mo</span></li>
+            <li><span class="pk">Every extra 500 emails/day</span><span class="pv">+$250/mo</span></li>
+            <li><span class="pk">Per qualified meeting booked</span><span class="pv blue">$200</span></li>
+          </ul>
+          <p class="price-note">One good conversion covers the whole month. That's the math you walked me through – this model matches it.</p>
+        </div>
+        <div class="price-card">
+          <p class="opt">Option 2</p>
+          <h3>Flat retainer</h3>
+          <p class="sub">Everything included, no per-meeting fee. Scales with volume too.</p>
+          <ul class="price-rows">
+            <li><span class="pk">1,000 emails/day · ~20,000/mo</span><span class="pv">$2,000/mo</span></li>
+            <li><span class="pk">1,500 emails/day · ~30,000/mo</span><span class="pv">$2,250/mo</span></li>
+            <li><span class="pk">Every extra 500 emails/day</span><span class="pv">+$250/mo</span></li>
+            <li><span class="pk">Per qualified meeting booked</span><span class="pv">None</span></li>
+          </ul>
+          <p class="price-note plain">One predictable number, no per-meeting costs. Simpler if you'd rather have a single line on the invoice.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RUNWAY CALLOUT ============ -->
+  <section class="section" style="padding-top:0;">
+    <div class="page">
+      <div class="callout">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div>
+        <p>At 1,000–1,500 emails a day, we'd work through your <strong>400k high-potential segment for well over a year</strong> before repeating a single advisor. Plenty of runway alongside your current vendor.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="section" style="padding-top:0;">
+    <div class="page">
+      <div class="final-cta">
+        <p class="eyebrow">NEXT STEP</p>
+        <h2 class="h2">Ready when you are.</h2>
+        <p class="lede">Once you hear back from your current vendor on capacity, tell me which option fits and I'll get the first segment built.</p>
+        <div class="cta-steps">
+          <div class="cta-step"><span class="n">1</span> You check your current vendor on scaling</div>
+          <div class="cta-step"><span class="n">2</span> Pick a pricing model</div>
+          <div class="cta-step"><span class="n">3</span> We're live within a week</div>
+        </div>
+        <a class="btn btn-primary btn-lg" href="https://cal.com/kieler-miller-ziw7qo/15min">
+          Lock in the kickoff
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div class="page foot-inner">
+    <span class="foot-brand">Diffram.</span>
+    <span>Prepared for USA Recruiters · diffram.com · A single 14-day campaign generated $27k in pipeline.</span>
+  </div>
+</footer>
+
+</body>
+</html>
